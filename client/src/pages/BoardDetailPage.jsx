@@ -227,75 +227,24 @@ export default function BoardDetailPage() {
     }
   };
 
-  const badgeStyle = (color) => ({
-    background: color,
-    color: "#fff",
-    padding: "0.1rem 0.4rem",
-    borderRadius: "999px",
-    fontSize: "0.75rem",
-  });
-
   return (
-    <main>
-      <style>{`
-        .board-columns {
-          display: grid;
-          grid-template-columns: repeat(4, minmax(200px, 1fr));
-          gap: 1rem;
-          align-items: start;
-        }
-        .board-column {
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
-          padding: 0.75rem;
-          min-height: 200px;
-        }
-        .task-card {
-          background: #fff;
-          border: 1px solid #e5e7eb;
-          border-radius: 8px;
-          padding: 0.75rem;
-          margin-bottom: 0.75rem;
-        }
-        .task-meta {
-          display: flex;
-          gap: 0.5rem;
-          margin-top: 0.25rem;
-          flex-wrap: wrap;
-        }
-        .task-actions {
-          margin-top: 0.5rem;
-          display: flex;
-          gap: 0.5rem;
-        }
-        @media (max-width: 900px) {
-          .board-columns {
-            grid-template-columns: 1fr 1fr;
-          }
-        }
-        @media (max-width: 600px) {
-          .board-columns {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
+    <main className="page">
       <h1>Board</h1>
       {loading && <p>Loading...</p>}
       {error && (
-        <div role="alert" style={{ color: "#b91c1c", marginBottom: "0.75rem" }}>
+        <div role="alert" className="alert">
           {error}
         </div>
       )}
       {!loading && !board && <p>Board not found.</p>}
       {board && (
         <>
-          <div>
+          <div className="card">
             <h2>{board.name}</h2>
             <p>Members: {board.members?.length || 0}</p>
           </div>
 
-          <section style={{ margin: "1rem 0" }}>
+          <section className="section card">
             <h3>Suggest Task Title</h3>
             <textarea
               rows={3}
@@ -303,12 +252,12 @@ export default function BoardDetailPage() {
               onChange={(e) => setSuggestInput(e.target.value)}
               placeholder="Describe the task..."
             />
-            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
-              <button type="button" onClick={handleSuggest} disabled={suggesting}>
+            <div className="list-actions" style={{ marginTop: "0.5rem" }}>
+              <button type="button" className="btn" onClick={handleSuggest} disabled={suggesting}>
                 {suggesting ? "Suggesting..." : "Suggest"}
               </button>
               {suggestedTitle && (
-                <button type="button" onClick={useSuggestedTitle}>
+                <button type="button" className="btn btn-secondary" onClick={useSuggestedTitle}>
                   Use this title
                 </button>
               )}
@@ -320,97 +269,98 @@ export default function BoardDetailPage() {
             )}
           </section>
 
-          <div style={{ display: "flex", gap: "0.5rem", margin: "1rem 0" }}>
-            <button type="button" onClick={openCreate}>
-              Create Task
-            </button>
-            <label>
-              Status
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-              >
-                {STATUS_VALUES.map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Priority
-              <select
-                value={filterPriority}
-                onChange={(e) => setFilterPriority(e.target.value)}
-              >
-                {PRIORITY_VALUES.map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-
-          {tasks.length === 0 ? (
-            <p>No tasks yet.</p>
-          ) : (
-            <div className="board-columns">
-              {STATUS_VALUES.filter((value) => value !== "All").map((status) => {
-                const columnTasks = tasks.filter((task) => task.status === status);
-                return (
-                  <div className="board-column" key={status}>
-                    <h3>{status}</h3>
-                    {columnTasks.length === 0 ? (
-                      <p>No tasks</p>
-                    ) : (
-                      columnTasks.map((task) => (
-                        <div className="task-card" key={task._id}>
-                          <strong>{task.title}</strong>
-                          <div className="task-meta">
-                            <span style={badgeStyle(priorityColors[task.priority] || "#6b7280")}>
-                              {task.priority}
-                            </span>
-                            <span style={badgeStyle(statusColors[task.status] || "#6b7280")}>
-                              {task.status}
-                            </span>
-                          </div>
-                          <div style={{ marginTop: "0.4rem" }}>
-                            Assigned: {getAssigneeName(task)}
-                          </div>
-                          <div className="task-actions">
-                            <button type="button" onClick={() => openEdit(task)}>
-                              Edit
-                            </button>
-                            {isAdmin && (
-                              <button type="button" onClick={() => handleDelete(task)}>
-                                Delete
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                );
-              })}
+          <div className="section card">
+            <div className="list-item" style={{ background: "transparent", border: "none" }}>
+              <button type="button" className="btn" onClick={openCreate}>
+                Create Task
+              </button>
+              <div className="list-actions">
+                <label>
+                  Status
+                  <select
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                  >
+                    {STATUS_VALUES.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Priority
+                  <select
+                    value={filterPriority}
+                    onChange={(e) => setFilterPriority(e.target.value)}
+                  >
+                    {PRIORITY_VALUES.map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
             </div>
-          )}
+
+            {tasks.length === 0 ? (
+              <p className="empty">No tasks yet.</p>
+            ) : (
+              <div className="board-columns">
+                {STATUS_VALUES.filter((value) => value !== "All").map((status) => {
+                  const columnTasks = tasks.filter((task) => task.status === status);
+                  return (
+                    <div className="board-column" key={status}>
+                      <h3>{status}</h3>
+                      {columnTasks.length === 0 ? (
+                        <p className="empty">No tasks</p>
+                      ) : (
+                        columnTasks.map((task) => (
+                          <div className="task-card" key={task._id}>
+                            <strong>{task.title}</strong>
+                            <div className="task-meta">
+                              <span
+                                className="badge"
+                                style={{ background: priorityColors[task.priority] || "#6b7280" }}
+                              >
+                                {task.priority}
+                              </span>
+                              <span
+                                className="badge"
+                                style={{ background: statusColors[task.status] || "#6b7280" }}
+                              >
+                                {task.status}
+                              </span>
+                            </div>
+                            <div style={{ marginTop: "0.4rem" }}>
+                              Assigned: {getAssigneeName(task)}
+                            </div>
+                            <div className="task-actions">
+                              <button type="button" className="btn btn-secondary" onClick={() => openEdit(task)}>
+                                Edit
+                              </button>
+                              {isAdmin && (
+                                <button type="button" className="btn btn-danger" onClick={() => handleDelete(task)}>
+                                  Delete
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </>
       )}
 
       {showCreate && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.4)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ background: "#fff", padding: "1rem", minWidth: "320px" }}>
+        <div className="modal">
+          <div className="modal__content">
             <h2>Create Task</h2>
             <form onSubmit={handleCreate}>
               <div>
@@ -492,12 +442,13 @@ export default function BoardDetailPage() {
                   }
                 />
               </div>
-              <div style={{ display: "flex", gap: "0.5rem" }}>
-                <button type="submit" disabled={submitting}>
+              <div className="list-actions">
+                <button type="submit" className="btn" disabled={submitting}>
                   {submitting ? "Creating..." : "Create"}
                 </button>
                 <button
                   type="button"
+                  className="btn btn-secondary"
                   onClick={() => {
                     setShowCreate(false);
                     resetForm();
@@ -512,17 +463,8 @@ export default function BoardDetailPage() {
       )}
 
       {showEdit && selectedTask && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.4)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ background: "#fff", padding: "1rem", minWidth: "320px" }}>
+        <div className="modal">
+          <div className="modal__content">
             <h2>Edit Task</h2>
             <form onSubmit={handleEdit}>
               <div>
@@ -604,12 +546,13 @@ export default function BoardDetailPage() {
                   }
                 />
               </div>
-              <div style={{ display: "flex", gap: "0.5rem" }}>
-                <button type="submit" disabled={submitting}>
+              <div className="list-actions">
+                <button type="submit" className="btn" disabled={submitting}>
                   {submitting ? "Saving..." : "Save"}
                 </button>
                 <button
                   type="button"
+                  className="btn btn-secondary"
                   onClick={() => {
                     setShowEdit(false);
                     setSelectedTask(null);

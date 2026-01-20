@@ -81,48 +81,49 @@ export default function AdminUsersPage() {
   };
 
   return (
-    <main>
-      <h1>Team Members</h1>
-      <button type="button" onClick={() => setShowModal(true)}>
-        Add Member
-      </button>
-      {error && (
-        <div role="alert" style={{ color: "#b91c1c", marginBottom: "0.75rem" }}>
-          {error}
+    <main className="page">
+      <div className="card">
+        <div className="list-item" style={{ background: "transparent", border: "none" }}>
+          <h1>Team Members</h1>
+          <button type="button" className="btn" onClick={() => setShowModal(true)}>
+            Add Member
+          </button>
         </div>
-      )}
-      {loading ? (
-        <p>Loading...</p>
-      ) : users.length === 0 ? (
-        <p>No members yet.</p>
-      ) : (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id || user._id}>
-              {user.name} - {user.email} ({user.role})
-              <button type="button" onClick={() => handleDelete(user.id || user._id)}>
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+        {error && (
+          <div role="alert" className="alert">
+            {error}
+          </div>
+        )}
+        {loading ? (
+          <p>Loading...</p>
+        ) : users.length === 0 ? (
+          <p className="empty">No members yet.</p>
+        ) : (
+          <ul className="list">
+            {users.map((user) => (
+              <li className="list-item" key={user.id || user._id}>
+                <span>
+                  {user.name} - {user.email} ({user.role})
+                </span>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(user.id || user._id)}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       {showModal && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.4)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ background: "#fff", padding: "1rem", minWidth: "320px" }}>
+        <div className="modal">
+          <div className="modal__content">
             <h2>Add Member</h2>
             {formError && (
-              <div role="alert" style={{ color: "#b91c1c", marginBottom: "0.5rem" }}>
+              <div role="alert" className="alert">
                 {formError}
               </div>
             )}
@@ -158,12 +159,13 @@ export default function AdminUsersPage() {
                   minLength={8}
                 />
               </div>
-              <div style={{ display: "flex", gap: "0.5rem" }}>
-                <button type="submit" disabled={submitting}>
+              <div className="list-actions">
+                <button type="submit" className="btn" disabled={submitting}>
                   {submitting ? "Creating..." : "Create"}
                 </button>
                 <button
                   type="button"
+                  className="btn btn-secondary"
                   onClick={() => {
                     resetForm();
                     setShowModal(false);

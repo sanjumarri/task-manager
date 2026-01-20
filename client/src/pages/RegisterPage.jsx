@@ -44,60 +44,64 @@ export default function RegisterPage() {
   const canSubmit = name && email && password && !loading;
 
   return (
-    <main>
-      <h1>Register</h1>
-      {error && (
-        <div role="alert" style={{ color: "#b91c1c", marginBottom: "0.75rem" }}>
-          {error}
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={8}
-          />
-        </div>
-        <div>
-          <label htmlFor="role">Role</label>
-          <select
-            id="role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option value="TEAM_MEMBER">TEAM_MEMBER</option>
-            <option value="ADMIN">ADMIN</option>
-          </select>
-        </div>
-        <button type="submit" disabled={!canSubmit}>
-          {loading ? "Registering..." : "Register"}
-        </button>
-      </form>
+    <main className="page">
+      <div className="card">
+        <h1>Register</h1>
+        {error && (
+          <div role="alert" className="alert">
+            {error}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="grid-2">
+          <div>
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+            />
+          </div>
+          <div>
+            <label htmlFor="role">Role</label>
+            <select
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="TEAM_MEMBER">TEAM_MEMBER</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
+          <div>
+            <button type="submit" className="btn" disabled={!canSubmit}>
+              {loading ? "Registering..." : "Register"}
+            </button>
+          </div>
+        </form>
+      </div>
     </main>
   );
 }

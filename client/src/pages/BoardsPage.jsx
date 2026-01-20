@@ -129,60 +129,55 @@ export default function BoardsPage() {
   };
 
   return (
-    <main>
-      <h1>Boards</h1>
-      {isAdmin && (
-        <button type="button" onClick={() => setShowCreate(true)}>
-          Create Board
-        </button>
-      )}
-      {error && (
-        <div role="alert" style={{ color: "#b91c1c", marginBottom: "0.75rem" }}>
-          {error}
+    <main className="page">
+      <div className="card">
+        <div className="list-item" style={{ background: "transparent", border: "none" }}>
+          <h1>Boards</h1>
+          {isAdmin && (
+            <button type="button" className="btn" onClick={() => setShowCreate(true)}>
+              Create Board
+            </button>
+          )}
         </div>
-      )}
-      {loading ? (
-        <p>Loading...</p>
-      ) : boards.length === 0 ? (
-        <p>No boards yet.</p>
-      ) : (
-        <ul>
-          {boards.map((board) => (
-            <li key={board._id}>
-              <Link to={`/boards/${board._id}`}>{board.name}</Link>
-              {isAdmin && (
-                <>
-                  <button type="button" onClick={() => handleRename(board)}>
-                    Rename
-                  </button>
-                  <button type="button" onClick={() => openMembersModal(board)}>
-                    Manage Members
-                  </button>
-                  <button type="button" onClick={() => handleDelete(board)}>
-                    Delete
-                  </button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+        {error && (
+          <div role="alert" className="alert">
+            {error}
+          </div>
+        )}
+        {loading ? (
+          <p>Loading...</p>
+        ) : boards.length === 0 ? (
+          <p className="empty">No boards yet.</p>
+        ) : (
+          <ul className="list">
+            {boards.map((board) => (
+              <li className="list-item" key={board._id}>
+                <Link to={`/boards/${board._id}`}>{board.name}</Link>
+                {isAdmin && (
+                  <div className="list-actions">
+                    <button type="button" className="btn btn-secondary" onClick={() => handleRename(board)}>
+                      Rename
+                    </button>
+                    <button type="button" className="btn btn-secondary" onClick={() => openMembersModal(board)}>
+                      Manage Members
+                    </button>
+                    <button type="button" className="btn btn-danger" onClick={() => handleDelete(board)}>
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       {showCreate && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.4)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ background: "#fff", padding: "1rem", minWidth: "320px" }}>
+        <div className="modal">
+          <div className="modal__content">
             <h2>Create Board</h2>
             {formError && (
-              <div role="alert" style={{ color: "#b91c1c", marginBottom: "0.5rem" }}>
+              <div role="alert" className="alert">
                 {formError}
               </div>
             )}
@@ -197,12 +192,13 @@ export default function BoardsPage() {
                   required
                 />
               </div>
-              <div style={{ display: "flex", gap: "0.5rem" }}>
-                <button type="submit" disabled={submitting}>
+              <div className="list-actions">
+                <button type="submit" className="btn" disabled={submitting}>
                   {submitting ? "Creating..." : "Create"}
                 </button>
                 <button
                   type="button"
+                  className="btn btn-secondary"
                   onClick={() => {
                     setNewName("");
                     setShowCreate(false);
@@ -217,17 +213,8 @@ export default function BoardsPage() {
       )}
 
       {showMembers && selectedBoard && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.4)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ background: "#fff", padding: "1rem", minWidth: "320px" }}>
+        <div className="modal">
+          <div className="modal__content">
             <h2>Manage Members</h2>
             <p>{selectedBoard.name}</p>
             <ul>
@@ -244,12 +231,13 @@ export default function BoardsPage() {
                 </li>
               ))}
             </ul>
-            <div style={{ display: "flex", gap: "0.5rem" }}>
-              <button type="button" disabled={submitting} onClick={saveMembers}>
+            <div className="list-actions">
+              <button type="button" className="btn" disabled={submitting} onClick={saveMembers}>
                 {submitting ? "Saving..." : "Save"}
               </button>
               <button
                 type="button"
+                className="btn btn-secondary"
                 onClick={() => {
                   setShowMembers(false);
                   setSelectedBoard(null);

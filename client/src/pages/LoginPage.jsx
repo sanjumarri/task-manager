@@ -45,39 +45,43 @@ export default function LoginPage() {
   const canSubmit = email && password && !loading;
 
   return (
-    <main>
-      <h1>Login</h1>
-      {error && (
-        <div role="alert" style={{ color: "#b91c1c", marginBottom: "0.75rem" }}>
-          {error}
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={8}
-          />
-        </div>
-        <button type="submit" disabled={!canSubmit}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+    <main className="page">
+      <div className="card">
+        <h1>Login</h1>
+        {error && (
+          <div role="alert" className="alert">
+            {error}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="grid-2">
+          <div>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn" disabled={!canSubmit}>
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </div>
+        </form>
+      </div>
     </main>
   );
 }
